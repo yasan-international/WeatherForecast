@@ -1,0 +1,32 @@
+import { Request, Response, NextFunction } from "express";
+
+export enum Methods {
+    GET = "GET",
+    POST = "POST",
+    PUT = "PUT",
+    DELETE = "DELETE"
+};
+
+export type Route = {
+    method: string,
+    path: string,
+    middlewares: Middleware[],
+    action: ControllerAction<any,any>
+};
+
+export type Middleware = (
+    request: Request,
+    response: Response,
+    next: NextFunction
+) => void;
+
+export type ControllerAction<P,O> = (
+    context: ActionContext<P>
+) => Promise<O>;
+
+export type ActionContext<P> = {
+    params: P,
+    user: {
+        id: string
+    }
+};

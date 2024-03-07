@@ -1,0 +1,6 @@
+# Files / Folders generated on running the package json script
+.env
+node_modules/**
+package-lock.json
+
+.vscode

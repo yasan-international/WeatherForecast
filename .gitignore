@@ -1,5 +1,6 @@
 # Files / Folders generated on running the package json script
 env
+.env
 node_modules/
 package-lock.json
 dist/

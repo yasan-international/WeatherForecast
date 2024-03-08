@@ -1,15 +1,15 @@
 import fs from "fs/promises";
 
-export const getQuery = async (queryName: string, variables: Map<string, any>[]) => {
+export const getQuery = async (queryName: string, variables: Map<string, string>) => {
     try {
-        const queryBuffer = await fs.readFile(`../Database/${queryName}`);
-        const queryString = queryBuffer.toString();
+        const queryBuffer = await fs.readFile(`dist/Database/${queryName}`);
+        var queryString = queryBuffer.toString();
 
         if (variables) {
-            Object.keys(variables).map((variableName, index) => {
-                queryString.replace(`@${variableName}`, variables[index].toString());
+            variables.forEach((value: string, name: string) => {
+                queryString = queryString.replace(`@${name}`, `\'${value}\'` ?? "NULL");
             });
-        }        
+        }
 
         return queryString;
     }

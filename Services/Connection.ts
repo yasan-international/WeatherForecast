@@ -1,4 +1,4 @@
-import { getQuery } from "Helpers/sql";
+import { getQuery } from "../Helpers/sql";
 import { createPool } from "mysql2";
 
 const readPool = createPool({
@@ -17,7 +17,7 @@ const writePool = createPool({
     port: +process.env.WRITE_DB_PORT
 });
 
-export const executeQuery = async (queryName: string, variables: Map<string, any>[], 
+export const executeQuery = async (queryName: string, variables: Map<string, any>, 
     isCommand: boolean) => {
     const query = await getQuery(queryName, variables);
 

@@ -19,6 +19,7 @@
         "dotenv": "^10.0.0",
         "env-cmd": "^10.1.0",
         "express": "^4.17.1",
+        "fs": "*",
         "moment": "^2.29.4",
         "mysql2": "^2.3.2",
         "winston-cloudwatch": "^6.1.1"

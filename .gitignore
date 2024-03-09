@@ -6,3 +6,4 @@ package-lock.json
 dist/
 
 .vscode
+dump.rdb

@@ -24,6 +24,7 @@
         "jsonwebtoken": "^9.0.2",
         "moment": "^2.29.4",
         "mysql2": "^2.3.2",
+        "redis": "^4.6.13",
         "winston-cloudwatch": "^6.1.1"
     },
     "devDependencies": {

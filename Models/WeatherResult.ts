@@ -1,11 +1,22 @@
+import { LocationPayload } from "./LocationResult";
+
+export type HistoryPayload = LocationPayload & {
+    days: number
+};
+
 export type ForecastResult = {
     location: LocationSubResult,
-    forecast: ForecastSubResult
+    forecast: ForecastSubResult,
 };
 
 export type ForecastModel = {
-    location: LocationSubResult,
-    forecast: ForecastSubModel
+    locationName: string,
+    region: string,
+    country: string,
+    latitude: number,
+    longitude: number,
+    localTime: Date,
+    day: DaySubModel[]
 };
 
 type LocationSubResult = {
@@ -13,15 +24,12 @@ type LocationSubResult = {
     region: string
     country: string,
     lat: number,
-    long: number
+    long: number,
+    localtime: Date
 };
 
 type ForecastSubResult = {
     forecastday: ForecastDayResult[]
-};
-
-export type ForecastSubModel = {
-    forecastDay: ForecastDayModel[]
 };
 
 type ForecastDayResult = {
@@ -29,13 +37,6 @@ type ForecastDayResult = {
     day: DaySubResult,
     astro: AstroSubResult,
     hour: HourSubResult[]
-};
-
-export type ForecastDayModel = {
-    date: Date,
-    day: DaySubModel,
-    astro: AstroSubModel,
-    hour: HourSubModel[]
 };
 
 type DaySubResult = {
@@ -87,6 +88,8 @@ type DaySubModel = {
     maxTempF: string,
     minTempC: string,
     minTempF: string,
+    astro: AstroSubModel,
+    hour: HourSubModel[],
     condition: ConditionSubSubResult
 };
 
@@ -98,7 +101,7 @@ type AstroSubModel = {
     moonPhase: string
 };
 
-export const applyHourModel = (result: HourSubResult[]) => {
+const applyHourModel = (result: HourSubResult[]) => {
     return result.map((data: HourSubResult) => ({
         time: data.time,
         tempC: data.temp_c,
@@ -111,8 +114,38 @@ export const applyHourModel = (result: HourSubResult[]) => {
     }));
 };
 
-export const applyForecastModel = (result: ForecastSubResult[]) => {
-    return result.map((data: ForecastSubResult) => ({
-        forecastDay: data.forecastday
+const applyDayModel = (result: ForecastDayResult[]) => {
+    return result.map((data: ForecastDayResult) => ({
+        maxTempC: data.day.maxtemp_c,
+        maxTempF: data.day.maxtemp_f,
+        minTempC: data.day.mintemp_c,
+        minTempF: data.day.mintemp_f,
+        astro: applyAstroModel(data),
+        hour: applyHourModel(data.hour),
+        condition: data.day.condition
     }));
+};
+
+const applyAstroModel = (result: ForecastDayResult) => {
+    return {
+        sunrise: result.astro.sunrise,
+        sunset: result.astro.sunset,
+        moonRise: result.astro.moonrise,
+        moonSet: result.astro.moonset,
+        moonPhase: result.astro.moon_phase
+    };
+};
+
+export const applyForecastResultModel = (result: ForecastResult) => {
+    const forecastModel: ForecastModel = {
+        locationName: result.location.name,
+        region: result.location.region,
+        country: result.location.country,
+        latitude: result.location.lat,
+        longitude: result.location.long,
+        localTime: result.location.localtime,
+        day: applyDayModel(result.forecast.forecastday),
+    };
+
+    return forecastModel;
 };

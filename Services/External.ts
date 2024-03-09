@@ -1,5 +1,5 @@
 import axios from "axios";
-import { handleServiceResponseErrors, statusCode, statusMessage } from "Helpers/response";
+import { handleServiceResponseErrors, statusCode } from "../Helpers/response";
 
 export const externalGetApi = async (url: string) => {
     const response = await axios.get(url);
@@ -8,6 +8,6 @@ export const externalGetApi = async (url: string) => {
             message: handleServiceResponseErrors(url, response.status)
         };
     }
-    
+
     return response.data;
 };

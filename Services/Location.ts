@@ -44,3 +44,24 @@ export const getLocationById = async (locationId: string, userId: string) => {
 
     return result && result.length > 0 ? result[0] : null;
 };
+
+export const updateUserLocation = async (location: LocationModel, userId: string) => {
+    const variables: Map<string, string> = new Map<string, string>();
+    variables.set("Name", location.name);
+    variables.set("Latitude", location.latitude.toString());
+    variables.set("Longitude", location.longitude.toString());
+    variables.set("UserId", userId);
+    variables.set("Id", location.id);
+
+    const { data } = await executeQuery(commands.UpdateLocation, variables, true);
+    return (data as ResultSetHeader).affectedRows >= 1;
+};
+
+export const deleteUserLocation = async (locationId: string, userId: string) => {
+    const variables: Map<string, string> = new Map<string, string>();
+    variables.set("Id", locationId);
+    variables.set("UserId", userId);
+
+    const { data } = await executeQuery(commands.DeleteLocation, variables, true);
+    return (data as ResultSetHeader).affectedRows >= 1;
+};

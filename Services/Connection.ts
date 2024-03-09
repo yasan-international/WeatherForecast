@@ -20,7 +20,7 @@ const writePool = createPool({
 export const executeQuery = async (queryName: string, variables: Map<string, any>, 
     isCommand: boolean) => {
     const query = await getQuery(queryName, variables);
-
+    
     const connection = await getConnection(isCommand);
     try {
         const [data, fields] = await connection.query(query);

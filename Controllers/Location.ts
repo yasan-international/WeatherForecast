@@ -1,7 +1,7 @@
 import { otherCodes } from "../Helpers/error";
 import { ActionContext, ControllerAction } from "../Helpers/types";
 import { LocationModel, LocationPayload } from "../Models/LocationResult";
-import { addUserLocation, getLocationById, getUserLocations } from "../Services/Location";
+import { addUserLocation, deleteUserLocation, getLocationById, getUserLocations, updateUserLocation } from "../Services/Location";
 
 export const getAllLocations: ControllerAction<void, LocationModel[]> = async (context) => {
     try {
@@ -31,7 +31,50 @@ export const getLocation: ControllerAction<LocationPayload, LocationModel> = asy
 
         const locationId = context.params.locationId;
 
-        const result = await getLocationById(locationId, userId);
+        return await getLocationDetails(locationId, userId);
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+export const updateLocation: ControllerAction<LocationModel & LocationPayload, boolean> = async (context) => {
+    try {
+        const userId = getUserId(context);
+
+        const locationId = context.params.locationId;
+
+        const locationResult: LocationModel = await getLocationDetails(locationId, userId);
+
+        if (!locationResult.userId || userId != locationResult.userId) {
+            throw {
+                code: otherCodes.USERMISMATCH,
+                message: "Location requested for the wrong user"
+            };
+        }
+
+        const updateRequest: LocationModel = {
+            id: locationResult.id,
+            userId: userId,
+            name: context.params.name ?? locationResult.name,
+            latitude: context.params.latitude ?? locationResult.latitude,
+            longitude: context.params.longitude ?? locationResult.longitude
+        }
+
+        return await updateUserLocation(updateRequest, userId);
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
+export const deleteLocation: ControllerAction<LocationModel & LocationPayload, boolean> = async (context) => {
+    try {
+        const userId = getUserId(context);
+
+        const locationId = context.params.locationId;
+
+        const result = await deleteUserLocation(locationId, userId);
 
         if (!result) {
             throw {
@@ -45,6 +88,19 @@ export const getLocation: ControllerAction<LocationPayload, LocationModel> = asy
     catch(error) {
         throw error;
     }
+};
+
+const getLocationDetails = async (locationId: string, userId: string) => {
+    const result = await getLocationById(locationId, userId);
+
+    if (!result) {
+        throw {
+            code: otherCodes.NOTFOUND,
+            message: `Location not found for user ${userId}`
+        };
+    }
+
+    return result;
 };
 
 const getUserId = (context: ActionContext<any>) => {

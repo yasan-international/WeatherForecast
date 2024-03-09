@@ -28,6 +28,24 @@ export const getForecast: ControllerAction<LocationPayload, ForecastModel> = asy
     }
 };
 
+export const healthCheck: ControllerAction<void, boolean> = async (context) => {
+    try {
+        // Test lat and long values for health check.
+
+        const result = await getLocationForecast({
+            id: -1,
+            userId: "",
+            latitude: 19.01,
+            longitude: 72.12
+        });
+
+        return result != null;
+    }
+    catch(error) {
+        throw error;
+    }
+};
+
 export const getHistory: ControllerAction<HistoryPayload, ForecastModel> = async (context) => {
     try {
         const locationId = context.params.locationId;

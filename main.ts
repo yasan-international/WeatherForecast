@@ -19,6 +19,8 @@ const welcomeHtml = `<!DOCTYPE html>
 
     </html>`;
 
+app.use(express.json());
+
 app.use("/api", apiRouter);
 
 app.use("/", (request, response, next) => {

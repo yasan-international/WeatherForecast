@@ -17,4 +17,4 @@ export const getQuery = async (queryName: string, variables: Map<string, string>
         console.error(`Failed to read query file: ${queryName}`);
         throw error;
     }
-}
+};

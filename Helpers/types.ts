@@ -34,3 +34,14 @@ export type ActionContext<P> = {
 
 export type QueryResult = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | 
     ResultSetHeader;
+
+export type ErrorResponse = {
+    message: string,
+    statusCode: number
+}
+
+export type ErrorPayload = {
+    message: string,
+    sqlMessage: string,
+    code: string
+}

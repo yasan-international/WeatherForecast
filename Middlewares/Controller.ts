@@ -1,6 +1,7 @@
 import { ActionContext, ControllerAction, Middleware } from "../Helpers/types";
 import { NextFunction, Request, Response } from "express";
 import { statusCode } from "../Helpers/response";
+import { errorHandler } from "../Helpers/error";
 
 export const controllerActionMW = (controller: ControllerAction<any, any>): Middleware => 
     async (request: Request, response: Response, next: NextFunction) => {
@@ -20,14 +21,18 @@ export const controllerActionMW = (controller: ControllerAction<any, any>): Midd
             response.locals.statusCode = statusCode.success;
         }
         catch(error) {
-            response.locals.statusCode = statusCode.internalServerError;
-            response.locals.message = error.message || "Internal Server Error";
+            const errorResponse = errorHandler(error);
+
+            response.locals.message = errorResponse.message;
+            response.locals.statusCode = errorResponse.statusCode;
             response.locals.error = error;
             response.locals.data = error.data;
         }
         finally {
+            // User is mainly for guest login, not needed if login with jwt is used.
             response.send({
                 data: response.locals.data,
+                user: response.locals.user,
                 error: response.locals.error,
                 statusCode: response.locals.statusCode,
                 message: response.locals.message

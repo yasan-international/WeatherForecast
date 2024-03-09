@@ -1,0 +1,1 @@
+INSERT INTO Locations (`UserId`, `Name`, `Latitude`, `Longitude`) VALUES ( @UserId, @Name, @Latitude, @Longitude);

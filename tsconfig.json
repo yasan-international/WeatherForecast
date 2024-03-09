@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outDir": "dist",
+        "sourceMap": true,
+        "baseUrl": "."
+    },
+    "include": ["**/*.ts", "**/*.js"],
+    "compileOnSave": true,
+    "exclude": ["node_modules"]
+}  

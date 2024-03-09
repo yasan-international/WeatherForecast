@@ -16,6 +16,7 @@ export const errorHandler = (error: ErrorPayload) => {
             case sqlCodes.BADFIELD:
             case sqlCodes.INVALIDVALUE:
             case otherCodes.BADAUTHREQUEST:
+            case otherCodes.BADTYPEREQUEST:
             case otherCodes.USERMISMATCH:
                 errorResponse.statusCode = statusCode.badRequest;
                 errorResponse.message = error.sqlMessage ?? error.message;
@@ -41,6 +42,9 @@ export enum sqlCodes {
 
 export enum otherCodes {
     BADAUTHREQUEST = "BAD_USERID_ERROR",
+    BADTYPEREQUEST = "BAD_TYPE_ERROR",
     USERMISMATCH = "USER_MISMATCH_ERROR",
-    NOTFOUND = "NOT_FOUND_ERROR"
+    NOTFOUND = "NOT_FOUND_ERROR",
+    SERVICEUNAVAILABLE = "SERVICE_UNAVAILABLE_ERROR",
+    SERVICEFORBIDDEN = "SERVICE_FORBIDDEN_ERROR"
 };

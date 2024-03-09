@@ -1,11 +1,11 @@
 import { QueryResult } from "../Helpers/types";
 
 export type LocationPayload = {
-    locationId: string
+    locationId: number
 };
 
 export type LocationResult = {
-    Id: string,
+    Id: number,
     UserId: string,
     Name: string,
     Latitude: number,
@@ -13,7 +13,7 @@ export type LocationResult = {
 };
 
 export type LocationModel = {
-    id: string,
+    id: number,
     name?: string,
     userId: string,
     latitude?: number,

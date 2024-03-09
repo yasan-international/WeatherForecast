@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { OkPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 
 export enum Methods {
     GET = "GET",
@@ -30,3 +31,6 @@ export type ActionContext<P> = {
         id: string
     }
 };
+
+export type QueryResult = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | 
+    ResultSetHeader;

@@ -1,0 +1,1 @@
+INSERT INTO Users (`Id`, `IsGuest`, `Contact`) VALUES (@UserId, @IsGuest, @Contact);

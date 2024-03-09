@@ -7,7 +7,7 @@ export const getQuery = async (queryName: string, variables: Map<string, string>
 
         if (variables) {
             variables.forEach((value: string, name: string) => {
-                queryString = queryString.replace(`@${name}`, `\'${value}\'` ?? "NULL");
+                queryString = queryString.replace(`@${name}`, value ? `\'${value}\'` : "NULL");
             });
         }
 

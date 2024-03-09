@@ -48,5 +48,6 @@ export const validateOrGuestLogin: Middleware = async (request, response, next) 
     response.locals.user = {
         id: userId
     };
+
     next();
 };

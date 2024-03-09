@@ -17,4 +17,10 @@ export const getQuery = async (queryName: string, variables: Map<string, string>
         console.error(`Failed to read query file: ${queryName}`);
         throw error;
     }
-}
+};
+
+export enum sqlCodes {
+    DUPLICATE = "ER_DUP_ENTRY",
+    BADFIELD = "ER_BAD_FIELD_ERROR",
+    INVALIDVALUE = "ER_TRUNCATED_WRONG_VALUE_FOR_FIELD"
+};

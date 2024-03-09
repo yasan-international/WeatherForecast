@@ -31,9 +31,19 @@ export const executeQuery = async (queryName: string, variables: Map<string, any
         };
     }
     catch(error) {
-        console.error(`Failed to execute ${isCommand ? "command" : "query"}: 
-            ${queryName}`);
+        console.error(`Failed to execute ${isCommand ? "command" : "query"} 
+            ${queryName}: ${query}`);
         throw error;
+        /* TODO:
+            "error": {
+            "message": "Unknown column 'UserId' in 'field list'",
+            "code": "ER_BAD_FIELD_ERROR",
+            "errno": 1054,
+            "sql": "INSERT INTO Users (`Id`, `UserId`, `Name`, `Latitude`, `Longitude`) VALUES (NULL, '3dcb9c8e-55ac-4deb-9e46-16f622237b94', 'Prabhadevi', '19.0176837', '72.8281276');",
+            "sqlState": "42S22",
+            "sqlMessage": "Unknown column 'UserId' in 'field list'"
+            }
+        */
     }
     finally {
         connection.release();

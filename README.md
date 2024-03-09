@@ -47,7 +47,7 @@ We have used express with Typescript to create a backend application with REST A
 location by ID
 /api/weather/<location_id> (GET): Get the weather forecast for a specific location
 /api/weather/history (last 7 days, last 15 days, last 30 days) (GET): Get the historical data and
-show the summary.
+show the summary. (days: 0 (last 7 days), 1 (last 15 days), 2 (last 30 days))
 
 Taking scalability and encapsulation into account, we have used a MVC like architecture, where
 we have Models, Controllers and Views (Routes as Views since they are exposed to the users).

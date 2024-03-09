@@ -1,5 +1,6 @@
+import { getUserId } from "../Middlewares/Controller";
 import { otherCodes } from "../Helpers/error";
-import { ActionContext, ControllerAction } from "../Helpers/types";
+import { ControllerAction } from "../Helpers/types";
 import { LocationModel, LocationPayload } from "../Models/LocationResult";
 import { addUserLocation, deleteUserLocation, getLocationById, getUserLocations, updateUserLocation } from "../Services/Location";
 
@@ -46,7 +47,7 @@ export const updateLocation: ControllerAction<LocationModel & LocationPayload, b
 
         const locationResult: LocationModel = await getLocationDetails(locationId, userId);
 
-        if (!locationResult.userId || userId != locationResult.userId) {
+        if (!locationResult || !locationResult.userId || userId != locationResult.userId) {
             throw {
                 code: otherCodes.USERMISMATCH,
                 message: "Location requested for the wrong user"
@@ -59,7 +60,7 @@ export const updateLocation: ControllerAction<LocationModel & LocationPayload, b
             name: context.params.name ?? locationResult.name,
             latitude: context.params.latitude ?? locationResult.latitude,
             longitude: context.params.longitude ?? locationResult.longitude
-        }
+        };
 
         return await updateUserLocation(updateRequest, userId);
     }
@@ -90,7 +91,7 @@ export const deleteLocation: ControllerAction<LocationModel & LocationPayload, b
     }
 };
 
-const getLocationDetails = async (locationId: string, userId: string) => {
+export const getLocationDetails = async (locationId: string, userId: string) => {
     const result = await getLocationById(locationId, userId);
 
     if (!result) {
@@ -101,15 +102,4 @@ const getLocationDetails = async (locationId: string, userId: string) => {
     }
 
     return result;
-};
-
-const getUserId = (context: ActionContext<any>) => {
-    if (!context.user.id) {
-        throw {
-            code: otherCodes.BADAUTHREQUEST,
-            message: "Bad Authorization Request"
-        };
-    }
-
-    return context.user.id;
 };

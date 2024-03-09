@@ -6,8 +6,11 @@ version 14
 
 Redis: 
 wget http://download.redis.io/redis-stable.tar.gz
+
 tar xvzf redis-stable.tar.gzcd 
+
 redis-stable
+
 make
 
 Confirm installation by running
@@ -24,7 +27,9 @@ redis-server
 
 Sql:
 MySql local setup.
+
 Run below queries:
+
 CREATE SCHEMA `WeatherForecast`;
 
 CREATE TABLE WeatherForecast.Users (
@@ -49,6 +54,7 @@ Set password for mysql to Test$123 or change password in .env.development for RE
 
 RUN: (Branch: main or development)
 npm install
+
 npm run dev
 
 ABOUT:

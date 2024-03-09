@@ -1,5 +1,4 @@
 import { statusCode } from "./response";
-import { sqlCodes } from "./sql";
 import { ErrorPayload, ErrorResponse } from "./types";
 
 export const errorHandler = (error: ErrorPayload) => {
@@ -16,8 +15,13 @@ export const errorHandler = (error: ErrorPayload) => {
                 break;
             case sqlCodes.BADFIELD:
             case sqlCodes.INVALIDVALUE:
+            case otherCodes.BADAUTHREQUEST:
                 errorResponse.statusCode = statusCode.badRequest;
                 errorResponse.message = error.sqlMessage ?? error.message;
+                break;
+            case otherCodes.NOTFOUND:
+                errorResponse.statusCode = statusCode.notFound;
+                errorResponse.message = error.message;
                 break;
             default: 
                 errorResponse.statusCode = statusCode.internalServerError;
@@ -26,4 +30,15 @@ export const errorHandler = (error: ErrorPayload) => {
     }
 
     return errorResponse;
+};
+
+export enum sqlCodes {
+    DUPLICATE = "ER_DUP_ENTRY",
+    BADFIELD = "ER_BAD_FIELD_ERROR",
+    INVALIDVALUE = "ER_TRUNCATED_WRONG_VALUE_FOR_FIELD"
+};
+
+export enum otherCodes {
+    BADAUTHREQUEST = "BAD_USERID_ERROR",
+    NOTFOUND = "NOT_FOUND_ERROR"
 };

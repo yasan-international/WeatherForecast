@@ -29,8 +29,10 @@ export const controllerActionMW = (controller: ControllerAction<any, any>): Midd
             response.locals.data = error.data;
         }
         finally {
+            // User is mainly for guest login, not needed if login with jwt is used.
             response.send({
                 data: response.locals.data,
+                user: response.locals.user,
                 error: response.locals.error,
                 statusCode: response.locals.statusCode,
                 message: response.locals.message

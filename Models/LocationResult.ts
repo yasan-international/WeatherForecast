@@ -1,5 +1,9 @@
 import { QueryResult } from "../Helpers/types";
 
+export type LocationPayload = {
+    locationId: string
+};
+
 export type LocationResult = {
     Id: string,
     Name: string,

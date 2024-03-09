@@ -5,5 +5,6 @@ export const statusCode = {
     forbidden: 403,
     internalServerError: 500,
     unAuthorized: 401,
-    duplicate: 409
+    duplicate: 409,
+    notFound: 404
 };

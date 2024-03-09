@@ -33,3 +33,14 @@ export const addUserLocation = async (location: LocationModel, userId: string) =
     const { data } = await executeQuery(commands.CreateLocation, variables, true);
     return (data as ResultSetHeader).affectedRows >= 1;
 };
+
+export const getLocationById = async (locationId: string, userId: string) => {
+    const variables: Map<string, string> = new Map<string, string>();
+    variables.set("LocationId", locationId);
+    variables.set("UserId", userId);
+
+    const { data } = await executeQuery(queries.GetLocationById, variables, false);
+    const result = applyLocationModel(data);
+
+    return result && result.length > 0 ? result[0] : null;
+};

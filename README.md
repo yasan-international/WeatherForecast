@@ -10,6 +10,18 @@ tar xvzf redis-stable.tar.gzcd
 redis-stable
 make
 
+Confirm installation by running
+
+make test
+
+You can then copy redis to your path by running
+
+sudo make install
+
+To confirm that redis has been properly setup, start the redis server by running
+
+redis-server
+
 Sql:
 MySql local setup.
 Run below queries:

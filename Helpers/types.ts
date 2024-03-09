@@ -38,10 +38,15 @@ export type QueryResult = RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPac
 export type ErrorResponse = {
     message: string,
     statusCode: number
-}
+};
 
 export type ErrorPayload = {
     message: string,
     sqlMessage: string,
     code: string
-}
+};
+
+export type Schema = {
+    key: string,
+    type: string
+};

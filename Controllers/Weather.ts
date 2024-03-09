@@ -1,4 +1,5 @@
-import { ForecastModel, HistoryPayload } from "Models/WeatherResult";
+import { validateSchema } from "../Middlewares/Validation";
+import { ForecastModel, HistoryPayload } from "../Models/WeatherResult";
 import { otherCodes } from "../Helpers/error";
 import { ControllerAction } from "../Helpers/types";
 import { getUserId } from "../Middlewares/Controller";
@@ -11,7 +12,7 @@ export const getForecast: ControllerAction<LocationPayload, ForecastModel> = asy
         const locationId = context.params.locationId;
         const userId = getUserId(context);
 
-        const locationResult = await getLocationDetails(locationId, userId);
+        const locationResult = await getLocationDetails(locationId.toString(), userId);
 
         if (!locationResult || !locationResult.userId || userId != locationResult.userId) {
             throw {
@@ -33,7 +34,12 @@ export const getHistory: ControllerAction<HistoryPayload, ForecastModel> = async
         const userId = getUserId(context);
         const days = dayCount[context.params.days];
 
-        const locationResult = await getLocationDetails(locationId, userId);
+        validateSchema([
+            { key: "days", type: "number" },
+            { key: "locationId", type: "number" }
+        ], context.params);
+
+        const locationResult = await getLocationDetails(locationId.toString(), userId);
 
         if (!locationResult || !locationResult.userId || userId != locationResult.userId) {
             throw {

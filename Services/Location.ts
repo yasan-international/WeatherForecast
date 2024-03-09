@@ -24,7 +24,6 @@ export const getUserLocations = async (userId: string) => {
 
 export const addUserLocation = async (location: LocationModel, userId: string) => {
     const variables: Map<string, string> = new Map<string, string>();
-    variables.set("Id", location.id);
     variables.set("Name", location.name);
     variables.set("Latitude", location.latitude.toString());
     variables.set("Longitude", location.longitude.toString());
@@ -51,7 +50,7 @@ export const updateUserLocation = async (location: LocationModel, userId: string
     variables.set("Latitude", location.latitude.toString());
     variables.set("Longitude", location.longitude.toString());
     variables.set("UserId", userId);
-    variables.set("Id", location.id);
+    variables.set("Id", location.id.toString());
 
     const { data } = await executeQuery(commands.UpdateLocation, variables, true);
     return (data as ResultSetHeader).affectedRows >= 1;

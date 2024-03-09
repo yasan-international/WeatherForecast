@@ -31,9 +31,9 @@ export const getLocationForecast = async (location: LocationModel) => {
     catch(error) {
         throw error;
     }
-    // finally {
-    //     client.close();
-    // }
+    finally {
+        client.quit();
+    }
 };
 
 export const getLocationHistory = async (location: LocationModel, days: number) => {

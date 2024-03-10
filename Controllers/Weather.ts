@@ -51,7 +51,7 @@ export const getHistory: ControllerAction<HistoryPayload, ForecastModel> = async
         const locationId = context.params.locationId;
         const userId = getUserId(context);
 
-        if (context.params.days >= dayCount.length) {
+        if (context.params.days >= dayCount.length || context.params.days < 0) {
             throw {
                 code: otherCodes.BADTYPEREQUEST,
                 message: `Invalid value ${context.params.days} for variable days`
